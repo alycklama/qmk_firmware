@@ -29,3 +29,6 @@
 
 #define RGB_MATRIX_STARTUP_SPD 30
 #define RGB_MATRIX_TIMEOUT 300000 // number of milliseconds to wait until RGB automatically turns off
+
+#define LEADER_PER_KEY_TIMING
+#define LEADER_TIMEOUT 250

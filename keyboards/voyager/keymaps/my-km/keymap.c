@@ -19,6 +19,81 @@ const key_override_t **key_overrides = (const key_override_t *[]){
 	NULL // Null terminate the array of overrides!
 };
 
+void leader_start_user(void) {
+}
+
+void leader_end_user(void) {
+    if (leader_sequence_one_key(KC_N)) {
+        tap_code16(MEH(KC_N)); // Left 50%
+    }
+    else if (leader_sequence_two_keys(KC_N, KC_N)) {
+        tap_code16(HYPR(KC_N)); // Left 33%
+    }
+    else if (leader_sequence_two_keys(KC_N, KC_E)) {
+        tap_code16(LCAG(KC_N)); // Left 66%
+    }
+    else if (leader_sequence_one_key(KC_I)) {
+        tap_code16(MEH(KC_I)); // Right 50%
+    }
+    else if (leader_sequence_two_keys(KC_I, KC_I)) {
+        tap_code16(HYPR(KC_I)); // Right 33%
+    }
+    else if (leader_sequence_two_keys(KC_I, KC_E)) {
+        tap_code16(LCAG(KC_I)); // Right 66%
+    }
+    else if (leader_sequence_one_key(KC_L)) {
+        tap_code16(MEH(KC_L)); // Top-Left 50%
+    }
+    else if (leader_sequence_two_keys(KC_L, KC_L)) {
+        tap_code16(HYPR(KC_L)); // Top-Left 33%
+    }
+    else if (leader_sequence_two_keys(KC_L, KC_U)) {
+        tap_code16(LCAG(KC_L)); // Top-Left 66%
+    }
+    else if (leader_sequence_one_key(KC_Y)) {
+        tap_code16(MEH(KC_Y)); // Top-Right 50%
+    }
+    else if (leader_sequence_two_keys(KC_Y, KC_Y)) {
+        tap_code16(HYPR(KC_Y)); // Top-Right 33%
+    }
+    else if (leader_sequence_two_keys(KC_Y, KC_U)) {
+        tap_code16(LCAG(KC_Y)); // Top-Right 66%
+    }
+    else if (leader_sequence_one_key(KC_H)) {
+        tap_code16(MEH(KC_H)); // Bottom-Left 50%
+    }
+    else if (leader_sequence_two_keys(KC_H, KC_H)) {
+        tap_code16(HYPR(KC_H)); // Bottom-Left 33%
+    }
+    else if (leader_sequence_two_keys(KC_H, KC_COMMA)) {
+        tap_code16(LCAG(KC_H)); // Bottom-Left 66%
+    }
+    else if (leader_sequence_one_key(KC_DOT)) {
+        tap_code16(MEH(KC_K)); // Bottom-Right 50%, KC_DOT didn't work for HYPR
+    }
+    else if (leader_sequence_two_keys(KC_DOT, KC_DOT)) {
+        tap_code16(HYPR(KC_K)); // Bottom-Right 33%, KC_DOT didn't work for HYPR
+    }
+    else if (leader_sequence_two_keys(KC_DOT, KC_COMMA)) {
+        tap_code16(LCAG(KC_K)); // Bottom-Right 66%, KC_DOT didn't work for HYPR
+    }
+    else if (leader_sequence_one_key(KC_U)) {
+        tap_code16(MEH(KC_U)); // Top fullscreen
+    }
+    else if (leader_sequence_two_keys(KC_U, KC_U)) {
+        tap_code16(HYPR(KC_U)); // Top 33% middle
+    }
+    else if (leader_sequence_one_key(KC_COMMA)) {
+        tap_code16(MEH(KC_M)); // Bottom fullscreen, KC_COMMA didn't work for HYPR
+    }
+    else if (leader_sequence_two_keys(KC_COMMA, KC_COMMA)) {
+        tap_code16(HYPR(KC_M)); // Bottom 33% middle, KC_COMMA didn't work for HYPR
+    }
+    else if (leader_sequence_one_key(KC_E)) {
+        tap_code16(MEH(KC_E)); // Fullscreen
+    }
+}
+
 enum custom_keycodes {
   RGB_SLD = ML_SAFE_RANGE,
   HSV_137_255_255,
@@ -38,7 +113,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,         KC_Q,           KC_W,           KC_F,           KC_P,           KC_B,                                           KC_J,           KC_L,           KC_U,           KC_Y,           KC_SCLN,        KC_EQUAL,
     CW_TOGG,        KC_A,           KC_R,           KC_S,           KC_T,           KC_G,                                           KC_M,           KC_N,           KC_E,           KC_I,           KC_O,           KC_QUOTE,
     KC_LEFT_SHIFT,  KC_Z,           MT(MOD_LCTL, KC_X),MT(MOD_LALT, KC_C),MT(MOD_LGUI, KC_D),KC_V,                                           KC_K,           MT(MOD_RGUI, KC_H),MT(MOD_RALT, KC_COMMA),MT(MOD_RCTL, KC_DOT),KC_SLASH,       KC_RIGHT_SHIFT,
-                                                    LT(2,KC_ENTER), LT(3,KC_BSPC),                                  KC_TAB,         LT(4,KC_SPACE)
+                                                    LT(2,KC_ENTER), LT(3,KC_BSPC),                                  QK_LEAD,        LT(4,KC_SPACE)
   ),
   [1] = LAYOUT_voyager(
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
