@@ -2,6 +2,23 @@
 #include "version.h"
 #define MOON_LED_LEVEL LED_LEVEL
 
+// Shift + esc = ~
+const key_override_t tilde_esc_override = ko_make_basic(MOD_MASK_SHIFT, ALL_T(KC_ESCAPE), S(KC_GRV));
+
+// GUI + esc = `
+const key_override_t grave_esc_override = ko_make_basic(MOD_MASK_GUI, ALL_T(KC_ESCAPE), KC_GRV);
+
+// SHIFT + backspace = del
+const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, LT(3,KC_BSPC), KC_DEL);
+
+// This globally defines all key overrides to be used
+const key_override_t **key_overrides = (const key_override_t *[]){
+	&tilde_esc_override,
+	&grave_esc_override,
+	&delete_key_override,
+	NULL // Null terminate the array of overrides!
+};
+
 enum custom_keycodes {
   RGB_SLD = ML_SAFE_RANGE,
   HSV_137_255_255,
