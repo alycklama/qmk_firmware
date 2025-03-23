@@ -3,6 +3,8 @@
   See config.h options at https://docs.qmk.fm/#/config_options?id=the-configh-file
 */
 
+#define CHORDAL_HOLD
+
 #undef TAPPING_TERM
 #define TAPPING_TERM 300
 
