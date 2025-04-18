@@ -31,7 +31,7 @@
 #define LAYER_STATE_8BIT
 #define COMBO_COUNT 1
 
-#define RGB_MATRIX_STARTUP_SPD 30
+#define RGB_MATRIX_STARTUP_SPD 20
 #define RGB_MATRIX_TIMEOUT 300000 // number of milliseconds to wait until RGB automatically turns off
 
 #define LEADER_PER_KEY_TIMING
