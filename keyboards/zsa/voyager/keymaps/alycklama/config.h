@@ -4,6 +4,7 @@
 */
 
 #define CHORDAL_HOLD
+#define RETRO_TAPPING
 
 #undef TAPPING_TERM
 #define TAPPING_TERM 150
