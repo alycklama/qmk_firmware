@@ -1,5 +1,4 @@
 #define CHORDAL_HOLD
-#define RETRO_TAPPING
 
 #define PERMISSIVE_HOLD
 
