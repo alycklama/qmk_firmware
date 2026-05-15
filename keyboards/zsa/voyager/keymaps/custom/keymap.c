@@ -17,7 +17,13 @@ const key_override_t grave_esc_override = ko_make_basic(MOD_MASK_GUI, ALL_T(KC_E
 const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, LT(3,KC_BSPC), KC_DEL);
 
 // GUI + dash = equal sign
-const key_override_t dash_key_override = ko_make_basic(MOD_MASK_GUI, KC_MINUS, KC_EQUAL);
+const key_override_t dash_key_override = ko_make_with_layers_and_negmods(
+    MOD_MASK_GUI,
+    KC_MINUS,
+    KC_EQUAL,
+    (1 << 0),      // base layer only
+    MOD_MASK_SHIFT // shift must NOT be pressed
+);
 
 // This globally defines all key overrides to be used
 const key_override_t *key_overrides[] = {
