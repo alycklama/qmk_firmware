@@ -16,21 +16,11 @@ const key_override_t grave_esc_override = ko_make_basic(MOD_MASK_GUI, ALL_T(KC_E
 // SHIFT + backspace = del
 const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, LT(3,KC_BSPC), KC_DEL);
 
-// GUI + dash = equal sign
-const key_override_t dash_key_override = ko_make_with_layers_and_negmods(
-    MOD_MASK_GUI,
-    KC_MINUS,
-    KC_EQUAL,
-    (1 << 0),      // base layer only
-    MOD_MASK_SHIFT // shift must NOT be pressed
-);
-
 // This globally defines all key overrides to be used
 const key_override_t *key_overrides[] = {
     &tilde_esc_override,
     &grave_esc_override,
     &delete_key_override,
-    &dash_key_override,
     NULL // Null terminate the array of overrides!
 };
 
@@ -38,7 +28,8 @@ enum custom_keycodes {
   RGB_SLD = ZSA_SAFE_RANGE,
 };
 
-#define DUAL_FUNC_0 LT(8, KC_X)
+#define DUAL_FUNC_0 LT(14, KC_F23)
+#define DUAL_FUNC_1 LT(6, KC_F16)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // QWERTY Layer
@@ -59,18 +50,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   // Symbols Layer
   [2] = LAYOUT_voyager(
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_LBRC,        KC_RBRC,        KC_PIPE,        KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
-    KC_TRANSPARENT, KC_LCBR,        KC_LPRN,        KC_RPRN,        KC_RCBR,        KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
-                                                                    KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,         KC_TRANSPARENT, KC_TRANSPARENT,         KC_TRANSPARENT,                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_PIPE,                KC_LBRC,        KC_RBRC,                KC_TRANSPARENT,                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
+    KC_TRANSPARENT, KC_LCBR,        KC_LPRN,                KC_RPRN,        KC_RCBR,                KC_TRANSPARENT,                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
+    KC_TRANSPARENT, KC_TRANSPARENT, MT(MOD_LCTL, KC_MINUS), DUAL_FUNC_1,    MT(MOD_LGUI, KC_EQUAL), KC_TRANSPARENT,                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
+                                                                            KC_TRANSPARENT,         KC_TRANSPARENT,                 KC_TRANSPARENT, KC_TRANSPARENT
   ),
   // Media Layer
   [3] = LAYOUT_voyager(
-    RGB_TOG,        RGB_MODE_FORWARD,    RGB_HUI,        RGB_HUD,             RGB_VAI,             RGB_VAD,                         KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
-    RGB_SAI,        KC_MEDIA_PREV_TRACK, KC_PAUSE,       KC_MEDIA_PLAY_PAUSE, KC_MEDIA_NEXT_TRACK, KC_BRIGHTNESS_UP,                KC_MINUS,       KC_KP_7,        KC_KP_8,        KC_KP_9,        KC_TRANSPARENT, KC_TRANSPARENT,
-    RGB_SAD,        KC_TRANSPARENT,      KC_AUDIO_MUTE,  KC_AUDIO_VOL_DOWN,   KC_AUDIO_VOL_UP,     KC_BRIGHTNESS_DOWN,              KC_PLUS,        KC_KP_4,        KC_KP_5,        KC_KP_6,        KC_KP_0,        KC_TRANSPARENT,
-    KC_TRANSPARENT, KC_TRANSPARENT,      KC_TRANSPARENT, KC_TRANSPARENT,      KC_TRANSPARENT,      KC_TRANSPARENT,                  KC_KP_ASTERISK, KC_KP_1,        KC_KP_2,        KC_KP_3,        KC_TRANSPARENT, KC_TRANSPARENT,
+    RGB_TOG,        RGB_MODE_FORWARD,RGB_HUI,        RGB_HUD,        RGB_VAI,        RGB_VAD,                                        KC_TRANSPARENT, KC_KP_7,        KC_KP_8,        KC_KP_9,        KC_TRANSPARENT, KC_TRANSPARENT,
+    RGB_SAI,        KC_MEDIA_PREV_TRACK,KC_PAUSE,       KC_MEDIA_PLAY_PAUSE,KC_MEDIA_NEXT_TRACK,KC_BRIGHTNESS_UP,                                KC_TRANSPARENT, KC_KP_4,        KC_KP_5,        KC_KP_6,        KC_KP_PLUS,     KC_KP_ASTERISK,
+    RGB_SAD,        KC_TRANSPARENT, KC_AUDIO_MUTE,  KC_AUDIO_VOL_DOWN,KC_AUDIO_VOL_UP,KC_BRIGHTNESS_DOWN,                                KC_TRANSPARENT, KC_KP_1,        KC_KP_2,        KC_KP_3,        KC_KP_EQUAL,    KC_TRANSPARENT,
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_KP_0,        KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
                                                                               KC_TRANSPARENT,      KC_TRANSPARENT,                  KC_TRANSPARENT, KC_TRANSPARENT
   ),
   // Navigation Layer
@@ -128,6 +119,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           register_code16(KC_CAPS);
         } else {
           unregister_code16(KC_CAPS);
+        }
+      }
+      return false;
+    case DUAL_FUNC_1:
+      if (record->tap.count > 0) {
+        if (record->event.pressed) {
+          register_code16(KC_PLUS);
+        } else {
+          unregister_code16(KC_PLUS);
+        }
+      } else {
+        if (record->event.pressed) {
+          register_code16(KC_LEFT_ALT);
+        } else {
+          unregister_code16(KC_LEFT_ALT);
         }
       }
       return false;
