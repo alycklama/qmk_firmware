@@ -16,11 +16,15 @@ const key_override_t grave_esc_override = ko_make_basic(MOD_MASK_GUI, ALL_T(KC_E
 // SHIFT + backspace = del
 const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, LT(3,KC_BSPC), KC_DEL);
 
+// GUI + / = backslash
+const key_override_t forward_slash_override = ko_make_basic(MOD_MASK_GUI, KC_SLASH, KC_BACKSLASH);
+
 // This globally defines all key overrides to be used
 const key_override_t *key_overrides[] = {
     &tilde_esc_override,
     &grave_esc_override,
     &delete_key_override,
+    &forward_slash_override,
     NULL // Null terminate the array of overrides!
 };
 
