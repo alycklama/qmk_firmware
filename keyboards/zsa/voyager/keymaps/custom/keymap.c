@@ -7,6 +7,8 @@
 #define ZSA_SAFE_RANGE SAFE_RANGE
 #endif
 
+#define MAC_GLOBE_USAGE 0x029D // AC Next Keyboard Layout Select (macOS Globe/fn)
+
 // Shift + esc = ~
 const key_override_t tilde_esc_override = ko_make_basic(MOD_MASK_SHIFT, ALL_T(KC_ESCAPE), S(KC_GRV));
 
@@ -30,6 +32,7 @@ const key_override_t *key_overrides[] = {
 
 enum custom_keycodes {
   RGB_SLD = ZSA_SAFE_RANGE,
+  MAC_FN,
 };
 
 #define DUAL_FUNC_0 LT(14, KC_F23)
@@ -72,7 +75,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [4] = LAYOUT_voyager(
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_HOME,        KC_PGDN,        KC_PAGE_UP,     KC_END,         KC_TRANSPARENT, KC_TRANSPARENT,
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       KC_TRANSPARENT, KC_TRANSPARENT,
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, MAC_FN,         KC_TRANSPARENT,                                 KC_LEFT,        KC_DOWN,        KC_UP,          KC_RIGHT,       KC_TRANSPARENT, KC_TRANSPARENT,
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, LGUI(KC_LBRC),  KC_TRANSPARENT, RGUI(KC_RBRC),  KC_TRANSPARENT, KC_TRANSPARENT,
                                                                     KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT
   ),
@@ -140,6 +143,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           unregister_code16(KC_LEFT_ALT);
         }
       }
+      return false;
+    case MAC_FN:
+      host_consumer_send(record->event.pressed ? MAC_GLOBE_USAGE : 0);
       return false;
     case RGB_SLD:
       if (record->event.pressed) {
